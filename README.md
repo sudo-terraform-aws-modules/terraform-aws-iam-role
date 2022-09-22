@@ -48,5 +48,9 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_arn"></a> [arn](#output\_arn) | The ARN of the role that is created |
+| <a name="output_name"></a> [name](#output\_name) | The name of the role that is created |
+| <a name="output_path"></a> [path](#output\_path) | The path of the role that is created |
 <!-- END_TF_DOCS -->
