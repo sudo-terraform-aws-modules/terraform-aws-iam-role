@@ -56,18 +56,17 @@ variable "condition" {
   ]
 }
 
+variable "custom_policy_arns" {
+  type        = list(any)
+  description = "(optional) Custom Policy ARNs to attach to the role"
+  default     = []
+}
+
 variable "permissions_boundary" {
   type        = string
   description = "(optional) Specify the list of ARNs of policies that are used to define the permission boundary for the role. Default: \"\""
   default     = ""
 }
-
-variable "managed_policy_arns" {
-  type        = list(any)
-  description = "(optional) Managed Policy ARNs to attach to the role"
-  default     = []
-}
-
 
 variable "tags" {
   type        = map(any)

@@ -24,6 +24,12 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
+resource "aws_iam_role_policy_attachment" "user_defined_policies" {
+  count      = length(var.custom_policy_arns)
+  role       = aws_iam_role.role.name
+  policy_arn = var.custom_policy_arns[count.index]
+}
+
 
 resource "aws_iam_role" "role" {
   name                 = local.role_name
@@ -32,7 +38,6 @@ resource "aws_iam_role" "role" {
   assume_role_policy   = data.aws_iam_policy_document.assume_role_policy.json
   max_session_duration = var.maximum_session_duration
   permissions_boundary = var.permissions_boundary
-  managed_policy_arns  = var.managed_policy_arns
 
   tags = var.tags
 }
