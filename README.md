@@ -1,5 +1,12 @@
 # Terraform AWS IAM Role
-Template module to create AWS IAM Role
+Template module to create AWS IAM Role. The module will automatically enable a default random ExternalID, if one is not specified.
+
+## Usage
+module "iam-role" {
+  source             = "sudo-terraform-aws-modules/iam-role/aws"
+  version            = "1.0.1"
+  name               = "my-awesome-sudo-role"
+}
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -26,7 +33,6 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_iam_role.role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy_attachment.user_defined_policies](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [random_string.random_name](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
 | [aws_iam_policy_document.assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
@@ -35,7 +41,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_condition"></a> [condition](#input\_condition) | (optional) list of conditions | <pre>list(object({<br>    test     = string<br>    variable = string<br>    values   = list(string)<br>  }))</pre> | <pre>[<br>  {<br>    "test": "StringEquals",<br>    "values": [<br>      "CHANGEME"<br>    ],<br>    "variable": "sts:ExternalId"<br>  }<br>]</pre> | no |
-| <a name="input_custom_policy_arns"></a> [custom\_policy\_arns](#input\_custom\_policy\_arns) | (optional) Custom Policy ARNs to attach to the role | `list(any)` | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | (optional) Role Description. Default: "" | `string` | `""` | no |
 | <a name="input_managed_policy_arns"></a> [managed\_policy\_arns](#input\_managed\_policy\_arns) | (optional) Managed Policy ARNs to attach to the role | `list(any)` | `[]` | no |
 | <a name="input_maximum_session_duration"></a> [maximum\_session\_duration](#input\_maximum\_session\_duration) | (optional) Specify the maximum duration if seconds for role sessoin. Defaul: 3600 | `number` | `3600` | no |
