@@ -34,7 +34,5 @@ resource "aws_iam_role" "role" {
   permissions_boundary = var.permissions_boundary
   managed_policy_arns  = var.managed_policy_arns
 
-  inline_policy {}
-
   tags = var.tags
 }
