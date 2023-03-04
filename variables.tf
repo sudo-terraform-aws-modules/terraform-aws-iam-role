@@ -4,6 +4,16 @@ variable "name" {
   default     = null
 }
 
+variable "enabled" {
+  type        = bool
+  description = "(optional) Enable or disable module"
+  default     = true
+}
+variable "name_prefix" {
+  type        = string
+  description = "(optional) Specify the prefix for your role name"
+  default     = null
+}
 variable "description" {
   type        = string
   description = "(optional) Role Description. Default: \"\""
@@ -29,16 +39,9 @@ variable "path" {
 }
 
 variable "principals" {
-  type = list(object({
-    type        = string
-    identifiers = list(string)
-  }))
+  type        = list(string)
   description = "(optional) list of principals"
-  default = [{
-    type        = "Service"
-    identifiers = ["ec2.amazonaws.com"]
-    }
-  ]
+  default     = ["ec2.amazonaws.com"]
 }
 
 variable "condition" {
@@ -48,12 +51,7 @@ variable "condition" {
     values   = list(string)
   }))
   description = "(optional) list of conditions"
-  default = [{
-    test     = "StringEquals"
-    variable = "sts:ExternalId"
-    values   = ["CHANGEME"]
-    }
-  ]
+  default     = null
 }
 
 variable "custom_policy_arns" {
@@ -72,4 +70,10 @@ variable "tags" {
   type        = map(any)
   description = "(optional) specify your custom tags"
   default     = {}
+}
+
+variable "external_id" {
+  type        = string
+  description = "(optional) Specify the external ID"
+  default     = null
 }
