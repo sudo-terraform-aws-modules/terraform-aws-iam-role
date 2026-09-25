@@ -1,11 +1,9 @@
-
 data "aws_iam_policy_document" "assume_role_policy" {
   count = var.enabled && length(local.principals) > 0 ? 1 : 0
+
   statement {
-
     actions = var.trusted_role_actions
-
-    effect = "Allow"
+    effect  = "Allow"
 
     dynamic "principals" {
       for_each = local.principals
@@ -14,6 +12,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
         identifiers = principals.value.identifiers
       }
     }
+
     dynamic "condition" {
       for_each = local.condition
       content {
@@ -24,13 +23,6 @@ data "aws_iam_policy_document" "assume_role_policy" {
     }
   }
 }
-
-resource "aws_iam_role_policy_attachment" "user_defined_policies" {
-  count      = var.enabled ? length(var.custom_policy_arns) : 0
-  role       = aws_iam_role.role[0].name
-  policy_arn = var.custom_policy_arns[count.index]
-}
-
 
 resource "aws_iam_role" "role" {
   count                = var.enabled ? 1 : 0
@@ -43,4 +35,16 @@ resource "aws_iam_role" "role" {
   permissions_boundary = var.permissions_boundary
 
   tags = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "custom" {
+  count      = var.enabled ? length(var.custom_policy_arns) : 0
+  role       = aws_iam_role.role[0].name
+  policy_arn = var.custom_policy_arns[count.index]
+}
+
+resource "aws_iam_role_policy_attachment" "managed" {
+  count      = var.enabled ? length(var.managed_policy_arns) : 0
+  role       = aws_iam_role.role[0].name
+  policy_arn = var.managed_policy_arns[count.index]
 }
